@@ -19,7 +19,7 @@ func main() {
 
 	pNum,_ := dynamic_truncation(hs)
 
-	code := htop_value(pNum, digits) 
+	code := hotp_value(pNum, digits) 
 	fmt.Printf("Step 1: Hash: %040X or %v\n", hs, hs)
 	fmt.Printf("Step 2: Dynamic Truncation: %08X\n", pNum)
 	fmt.Printf("Step 3: OTP Code: %06d\n", code)	

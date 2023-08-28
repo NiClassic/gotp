@@ -174,7 +174,7 @@ func Test_htop_value(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := htop_value(tt.args.value, tt.args.digit); got != tt.want {
+			if got := hotp_value(tt.args.value, tt.args.digit); got != tt.want {
 				t.Errorf("htop_value() = %v, want %v", got, tt.want)
 			}
 		})

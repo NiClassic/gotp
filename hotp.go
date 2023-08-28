@@ -33,7 +33,7 @@ func dynamic_truncation(input []byte) (int, error) {
 	return pNum & (0xFFFFFFFF >> 1), nil
 }
 
-// htop_value returns the last digit digits off of value, typically 6 digits in hotp.
-func htop_value(value, digit int) int {
+// hotp_value returns the last digit digits off of value, typically 6 digits in hotp.
+func hotp_value(value, digit int) int {
 	return value % int(math.Pow10(digit))
 }
