@@ -1,26 +1,23 @@
 package main
 
 import (
-	"encoding/binary"
+	"flag"
 	"fmt"
-	"math"
-	"time"
+	"log"
 )
 
 func main() {
-	secretKey := "12345678901234567890"
-	var timestamp int64 = time.Now().Unix()
-	var counter uint64 = uint64(math.Floor(float64(timestamp) / 30.0))
-	counter = 0
-	digits := 6
-	c := make([]byte, 8)
-	binary.BigEndian.PutUint64(c, counter)
-	hs := hmac_sha_1([]byte(secretKey), c) 
+	var digits int
+	var step int
+	flag.IntVar(&digits, "d", 6, "the number of digits in the code")
+	flag.IntVar(&step, "s", 30, "the time interval in seconds of the service in which the counter increases")
+	flag.Parse()
 
-	pNum,_ := dynamic_truncation(hs)
-
-	code := hotp_value(pNum, digits) 
-	fmt.Printf("Step 1: Hash: %040X or %v\n", hs, hs)
-	fmt.Printf("Step 2: Dynamic Truncation: %08X\n", pNum)
-	fmt.Printf("Step 3: OTP Code: %06d\n", code)	
+	if secret := flag.Arg(0); secret != "" {
+		code, err := get_totp_code([]byte(secret), digits, &CurrentTimestampProvider{step: step})
+		if err != nil {
+			log.Fatal("An error occured while parsing the key. Check if it was entered correctly!")
+		}
+		fmt.Printf("The code for the service is: %0*d",digits, code)
+	}
 }
